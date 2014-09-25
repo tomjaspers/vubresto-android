@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+android:padding="0dp"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <ProgressBar
+            android:id="@+id/progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="12dp" />
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/content_listview"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginBottom="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:paddingBottom="16dp"
+        android:paddingTop="16dp"
+        android:clipToPadding="false"
+        android:divider="@null"
+        android:dividerHeight="12dp"
+        android:footerDividersEnabled="true"
+        android:scrollbars="none"
+        android:listSelector="@android:color/transparent" >
+    </ListView>
+
+    <LinearLayout
+        android:id="@+id/emptyView"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="0dp"
+        android:gravity="fill_vertical|center"
+        android:orientation="vertical" >
+
+        <TextView
+            style="@style/CardText"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40.0dip"
+            android:layout_marginRight="40.0dip"
+            android:gravity="center_horizontal"
+            android:paddingTop="2dp"
+            android:text="@string/no_meals" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/errorView"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="fill_vertical|center"
+        android:orientation="vertical" >
+
+        <ImageView
+            android:id="@+id/web_search_error_image"
+            android:layout_width="268dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center_horizontal"
+            android:scaleType="fitXY"
+            android:src="@drawable/sad_robot" />
+
+        <TextView
+            android:id="@+id/web_search_error_message"
+            style="@style/CardText"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40.0dip"
+            android:layout_marginRight="40.0dip"
+            android:gravity="center_horizontal"
+            android:paddingTop="2dp"
+            android:text="@string/cant_load_info" />
+
+        <Button
+            android:id="@+id/try_again_button"
+            style="@style/FirstRunButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/retry" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/weekendView"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="fill_vertical|center"
+        android:orientation="vertical"
+        android:visibility="gone" >
+
+        <TextView
+            style="@style/CardText"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40.0dip"
+            android:layout_marginRight="40.0dip"
+            android:gravity="center_horizontal"
+            android:paddingTop="2dp"
+            android:text="@string/closed_on_weekend" />
+    </LinearLayout>
+
+</LinearLayout>

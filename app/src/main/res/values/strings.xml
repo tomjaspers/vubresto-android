@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- APP INFO -->
+    <string name="app_name">VUB Restaurant</string>
+
+    <!-- ACTION BUTTONS -->
+    <string name="action_today">Today</string>
+
+    <!-- CONTENT -->
+    <string name="no_meals">No meals on the menuName.</string>
+    <string name="closed_on_weekend">The restaurant is closed during the weekend.</string>
+    <string name="cant_load_info">Can\'t load restaurant information. Make sure you are running the latest version of the app!</string>
+    <string name="retry">Retry</string>
+
+    <!-- MENU -->
+    <string-array name="action_list">
+        <item>Etterbeek</item>
+        <item>Jette</item>
+    </string-array>
+
+</resources>

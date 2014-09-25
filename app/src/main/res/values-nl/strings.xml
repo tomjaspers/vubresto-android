@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- APP INFO -->
+    <string name="app_name">VUB Restaurant</string>
+
+    <!-- ACTION BUTTONS -->
+    <string name="action_today">Vandaag</string>
+
+    <!-- CONTENT -->
+    <string name="no_meals">Geen maaltijden op het menuName.</string>
+    <string name="closed_on_weekend">Het restaurant is gesloten tijdens het weekend.</string>
+    <string name="cant_load_info">Kan restaurant informatie niet laden.</string>
+    <string name="retry">Opnieuw proberen</string>
+
+    <!-- MENU -->
+    <string-array name="action_list">
+        <item>Etterbeek</item>
+        <item>Jette</item>
+    </string-array>
+
+</resources>

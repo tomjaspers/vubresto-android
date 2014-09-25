@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="google_gray">#ececec</color>
+    <color name="blue_ish">#7cc9e6</color>
+    <color name="white">#ffffff</color>
+    <color name="holo_blue_light">#ff33b5e5</color>
+    <color name="card_text">#ff8d8d8d</color>
+    <color name="card_title_text">#ff707070</color>
+    <color name="card_light_text">#ffb5b5b5</color>
+    <color name="card_grid_text">#ff707070</color>
+    <color name="l_text_main">#757575</color>
+    <color name="l_white">#fafafa</color>
+    <color name="l_dark_gray">#e2e1e2</color>
+    <color name="l_lime">#bfc933</color>
+    <color name="l_teal">#00796b</color>
+    <color name="l_orange">#ff7043</color>
+</resources>
