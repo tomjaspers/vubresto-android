@@ -2,7 +2,7 @@
 <resources>
 
     <!-- APP INFO -->
-    <string name="app_name">VUB Restaurant</string>
+    <string name="app_name">VUB Resto</string>
 
     <!-- ACTION BUTTONS -->
     <string name="action_today">Today</string>
