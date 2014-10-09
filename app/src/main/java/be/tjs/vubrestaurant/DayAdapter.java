@@ -10,55 +10,39 @@ import android.widget.TextView;
 
 import org.joda.time.LocalDate;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import be.tjs.vubrestaurant.core.MenuItem;
+import be.tjs.vubrestaurant.core.Menu;
 import be.tjs.vubrestaurant.core.RestaurantContainer;
 
-public class DayAdapter extends BaseAdapter {
-    private LayoutInflater layoutInflater;
-    private List<MenuItem> menuItems;
-    private LocalDate selectedDate;
-    private RestaurantContainer restaurantContainer;
+class DayAdapter extends BaseAdapter {
+    private final LayoutInflater layoutInflater;
+    private List<Menu> menus;
+    private final LocalDate date;
+    private final RestaurantContainer restaurantContainer;
 
-    public DayAdapter(Context context, ArrayList<MenuItem> menuItems, LocalDate selectedDate) {
+    public DayAdapter(Context context, LocalDate date, RestaurantContainer restaurantContainer) {
         // Cache the LayoutInflate to avoid asking for a new one each time.
         this.layoutInflater = LayoutInflater.from(context);
-        this.menuItems = menuItems;
-        this.selectedDate = selectedDate;
-        this.restaurantContainer = RestaurantContainer.getInstance();
+        this.date = date;
+        this.restaurantContainer = restaurantContainer;
+        this.menus = null;
     }
 
-    public void notifyDataSetChangedUnsafe() throws Exception {
-        try {
-            this.menuItems = this.restaurantContainer.getMenuItemsPerDate(this.selectedDate);
-        } catch (Exception e) {
-            this.menuItems = new ArrayList<MenuItem>();
-            throw new Exception("Exception retrieving menusPerDate", e);
-        }
-        super.notifyDataSetChanged();
-    }
-
-    @Override
     public void notifyDataSetChanged() {
-        try {
-            this.menuItems = this.restaurantContainer.getMenuItemsPerDate(this.selectedDate);
-        } catch (Exception e) {
-            this.menuItems = new ArrayList<MenuItem>();
-        }
+        this.menus = this.restaurantContainer.getMenus(this.date);
         super.notifyDataSetChanged();
     }
 
     public int getCount() {
-        if (menuItems == null) {
+        if (menus == null) {
             return 0;
         }
-        return menuItems.size();
+        return menus.size();
     }
 
     public Object getItem(int position) {
-        return menuItems.get(position);
+        return menus.get(position);
     }
 
     public long getItemId(int position) {
@@ -71,23 +55,23 @@ public class DayAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = layoutInflater.inflate(R.layout.menu_item, parent, false);
             holder = new ViewHolder();
-            holder.tvMenuName = (TextView) convertView.findViewById(R.id.txt_menu_naam);
+            holder.tvMenu = (TextView) convertView.findViewById(R.id.txt_menu_naam);
             holder.tvDish = (TextView) convertView.findViewById(R.id.txt_gerecht);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        final MenuItem menuItem = (MenuItem) getItem(position);
-        holder.tvMenuName.setText(menuItem.getMenuName());
-        holder.tvMenuName.setBackgroundColor(Color.parseColor(menuItem.getColor()));
-        holder.tvDish.setText(menuItem.getDishName());
+        final Menu menu = (Menu) getItem(position);
+        holder.tvMenu.setText(menu.getName());
+        holder.tvMenu.setBackgroundColor(Color.parseColor(menu.getColor()));
+        holder.tvDish.setText(menu.getDish());
 
         return convertView;
     }
 
     static class ViewHolder {
-        TextView tvMenuName;
+        TextView tvMenu;
         TextView tvDish;
     }
 }

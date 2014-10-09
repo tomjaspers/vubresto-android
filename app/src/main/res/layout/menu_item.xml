@@ -19,15 +19,15 @@
             android:id="@+id/txt_menu_naam"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:gravity="bottom|left"
+            android:gravity="bottom|start"
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
             android:paddingLeft="16dp"
+            android:paddingStart="16dp"
             android:background="@color/blue_ish"
             android:textColor="@color/l_white"
             android:textSize="20sp"
-            android:typeface="serif"
-            android:text="Soep"/>
+            android:typeface="serif"/>
 
         <TextView
             android:id="@+id/txt_gerecht"
@@ -36,8 +36,8 @@
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
             android:paddingLeft="16dp"
+            android:paddingStart="16dp"
             android:textColor="@color/l_text_main"
-            android:textSize="18sp"
-            android:text="Komkommersoep"/>
+            android:textSize="18sp"/>
     </LinearLayout>
 </android.support.v7.widget.CardView>

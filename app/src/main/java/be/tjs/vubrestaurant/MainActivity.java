@@ -1,5 +1,7 @@
 package be.tjs.vubrestaurant;
 
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -18,21 +20,24 @@ import com.google.analytics.tracking.android.EasyTracker;
 
 import org.joda.time.LocalDate;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.Locale;
 
+import be.tjs.vubrestaurant.core.Constants;
 import be.tjs.vubrestaurant.core.RestaurantContainer;
-import be.tjs.vubrestaurant.core.RestaurantParser;
 
 
 public class MainActivity extends ActionBarActivity {
     @SuppressWarnings("unused")
     private static final String TAG = "MainActivity";
 
-    private RestaurantContainer restaurantContainer;
+    private static final String PREFS_FILENAME = "PreferencesVUBResto";
+    private static final String PREFS_ACTIVE_RESTAURANT = "ActiveRestaurant";
+
+    RestaurantContainer restaurantContainer;
     private DatesAdapter datesAdapter;
     private ViewPager viewPager;
-    private PagerTabStrip pagerTabStrip;
+
+    private int activeRestaurant;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,18 +45,56 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
+        // Restore preferences
+        SharedPreferences preferences = getSharedPreferences(PREFS_FILENAME, MODE_PRIVATE);
+        activeRestaurant = preferences.getInt(PREFS_ACTIVE_RESTAURANT, Constants.RESTO_ETTERBEEK);
+
         // Setup actionbar
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayShowTitleEnabled(true);
-        //actionBar.setSubtitle("Etterbeek");
+        actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setLogo(R.drawable.ic_vubrestaurant);
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+        actionBar.setListNavigationCallbacks(
+                new DropdownNavigationAdapter(this),
+                new ActionBar.OnNavigationListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(int position, long itemId) {
+                        switchActiveRestaurant(position);
+                        return true;
+                    }
+        });
+        actionBar.setSelectedNavigationItem(activeRestaurant);
+
+        // Select the correct language based on locale
+        int language = Constants.LANG_EN;
+        if (Locale.getDefault().getLanguage().equals("nl")) {
+            language = Constants.LANG_NL;
+        }
+        restaurantContainer = new RestaurantContainer(this.activeRestaurant, language);
+        datesAdapter = new DatesAdapter(getSupportFragmentManager(),restaurantContainer.getDates());
+
+        // Initialize visual elements
+
+        // Customize pagerTabStrip
+        PagerTabStrip pagerTabStrip = (PagerTabStrip) findViewById(R.id.pagerTabStrip);
+        pagerTabStrip.setTextColor(getResources().getColor(R.color.l_white));
+        pagerTabStrip.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18.0f);
+        pagerTabStrip.setTabIndicatorColor(getResources().getColor(R.color.l_dark_gray));
+
+        // Set up the viewPager for first load (toggle visibility to hide the scroll to Today)
+        viewPager = (ViewPager) findViewById(R.id.pager);
+        viewPager.setAdapter(datesAdapter);
+        viewPager.setVisibility(View.GONE);
+        viewPager.setCurrentItem(0); // Today is always the first date (since 1.3.2)
+        viewPager.setVisibility(View.VISIBLE);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (restaurantContainer.isCleared()) {
+        if (restaurantContainer.isEmpty()) {
             datesAdapter.notifyDataSetChanged();
+            loadContent();
         }
     }
 
@@ -66,41 +109,26 @@ public class MainActivity extends ActionBarActivity {
         // Handle menu selection
         switch (item.getItemId()) {
             case R.id.action_today:
-                scrollToToday(true);
+                scrollToToday();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-    private void scrollToToday(boolean animated) {
-        viewPager.setCurrentItem(datesAdapter.getIndexToday(), animated);
-    }
-
     @Override
     public void onStart() {
         super.onStart();
-
-        // Initialize elements
-        restaurantContainer = RestaurantContainer.getInstance();
-        datesAdapter = new DatesAdapter(getSupportFragmentManager());
-        viewPager = (ViewPager) findViewById(R.id.pager);
-        pagerTabStrip = (PagerTabStrip) findViewById(R.id.pagerTabStrip);
-
-        // Customize pagerTabStrip
-        pagerTabStrip.setTextColor(getResources().getColor(R.color.l_white));
-        pagerTabStrip.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18.0f);
-        pagerTabStrip.setTabIndicatorColor(getResources().getColor(R.color.l_dark_gray));
-
-        // Set up the viewPager for first load
-        // Toggle visibility so the scroll to Today isn't noticeable
-        viewPager.setAdapter(datesAdapter);
-        viewPager.setVisibility(View.GONE);
-        viewPager.setCurrentItem(datesAdapter.getIndexToday());
-        viewPager.setVisibility(View.VISIBLE);
-
         // Analytics
         EasyTracker.getInstance().activityStart(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        // Make sure we save the current active restaurant for next time
+        SharedPreferences preferences = getSharedPreferences(PREFS_FILENAME, MODE_PRIVATE);
+        preferences.edit().putInt(PREFS_ACTIVE_RESTAURANT, this.activeRestaurant).apply();
     }
 
     @Override
@@ -110,27 +138,67 @@ public class MainActivity extends ActionBarActivity {
         EasyTracker.getInstance().activityStop(this);
     }
 
-    private class DatesAdapter extends FragmentStatePagerAdapter {
-        private List<LocalDate> dates;
+    private void switchActiveRestaurant(int restaurant){
+        this.activeRestaurant = restaurant;
+        restaurantContainer.setActiveRestaurant(restaurant);
+        if(restaurantContainer.isEmpty()){
+            loadContent();
+        } else {
+            datesAdapter.notifyDataSetChanged();
+        }
+    }
 
-        public DatesAdapter(FragmentManager fragmentManager) {
-            super(fragmentManager);
-            this.dates = Arrays.asList(RestaurantParser.getDates());
+    private void scrollToToday() {
+        // Today is always the first date (since 1.3.2)
+        viewPager.setCurrentItem(0, true);
+    }
+
+    void loadContent(){
+        new LoadContentTask().execute(this.activeRestaurant);
+    }
+
+    private class LoadContentTask extends AsyncTask<Object, Object, Boolean> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            restaurantContainer.setLoading(true);
+            datesAdapter.notifyDataSetChanged();
         }
 
-        public int getIndexToday() {
-            // Today is always the first date (since 1.3.2)
-            return 0;
+        @Override
+        protected Boolean doInBackground(Object... args) {
+            try {
+                restaurantContainer.retrieveMenuItemsAndFill();
+                return true;
+            } catch (Exception e) {
+                return false;
+            }
+        }
+        @Override
+        protected void onPostExecute(Boolean result) {
+            restaurantContainer.setLoading(false);
+            datesAdapter.notifyDataSetChanged();
+            super.onPostExecute(result);
+        }
+    }
+
+    private class DatesAdapter extends FragmentStatePagerAdapter {
+        private final LocalDate[] dates;
+
+        public DatesAdapter(FragmentManager fragmentManager, LocalDate[] dates) {
+            super(fragmentManager);
+            this.dates = dates;
         }
 
         @Override
         public int getCount() {
-            return dates.size();
+            return dates.length;
         }
 
         @Override
         public Fragment getItem(int position) {
-            return (DayFragment.newInstance(position, dates.get(position)));
+            return (DayFragment.newInstance(position, dates[position]));
         }
 
         @Override
@@ -140,7 +208,7 @@ public class MainActivity extends ActionBarActivity {
 
         @Override
         public String getPageTitle(int position) {
-            return dates.get(position).toString("E d MMM");
+            return dates[position].toString("E d MMM");
         }
     }
 }

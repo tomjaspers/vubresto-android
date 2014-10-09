@@ -13,10 +13,4 @@
     <string name="cant_load_info">Can\'t load restaurant information</string>
     <string name="retry">Retry</string>
 
-    <!-- MENU -->
-    <string-array name="action_list">
-        <item>Etterbeek</item>
-        <item>Jette</item>
-    </string-array>
-
 </resources>

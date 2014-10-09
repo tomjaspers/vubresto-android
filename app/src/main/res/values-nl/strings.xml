@@ -12,11 +12,4 @@
     <string name="closed_on_weekend">Het restaurant is gesloten tijdens het weekend</string>
     <string name="cant_load_info">Kan restaurant informatie niet laden</string>
     <string name="retry">Opnieuw proberen</string>
-
-    <!-- MENU -->
-    <string-array name="action_list">
-        <item>Etterbeek</item>
-        <item>Jette</item>
-    </string-array>
-
 </resources>
