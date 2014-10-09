@@ -67,7 +67,7 @@ public class DayFragment extends Fragment {
             emptyView.setVisibility(View.GONE);
             contentListView.setVisibility(View.GONE);
         } else {
-            dayAdapter = new DayAdapter(view.getContext(), date, ((MainActivity)getActivity()).restaurantContainer);
+            dayAdapter = new DayAdapter(view.getContext(), date, ((MainActivity) getActivity()).restaurantContainer);
             contentListView.setEmptyView(emptyView);
             contentListView.setAdapter(dayAdapter);
 
@@ -75,7 +75,7 @@ public class DayFragment extends Fragment {
 
                 @Override
                 public void onClick(View v) {
-                    ((MainActivity)getActivity()).loadContent();
+                    ((MainActivity) getActivity()).loadContent();
                 }
             });
 
@@ -87,7 +87,7 @@ public class DayFragment extends Fragment {
     }
 
     private void showContent() {
-        if (((MainActivity)getActivity()).restaurantContainer.isLoading()){
+        if (((MainActivity) getActivity()).restaurantContainer.isLoading()) {
             // Hide the errorview
             errorView.setVisibility(View.GONE);
             // Hide the list view
@@ -96,7 +96,7 @@ public class DayFragment extends Fragment {
             // Show the progress bar
             progressBar.setVisibility(View.VISIBLE);
         } else {
-            if (((MainActivity)getActivity()).restaurantContainer.hasMenus(date)) {
+            if (((MainActivity) getActivity()).restaurantContainer.hasMenus(date)) {
                 // Hide the errorview
                 errorView.setVisibility(View.GONE);
                 // Hide the progress bar

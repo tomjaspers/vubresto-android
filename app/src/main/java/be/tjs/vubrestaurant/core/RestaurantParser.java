@@ -8,6 +8,7 @@ import com.google.gson.JsonParser;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
+
 import org.joda.time.LocalDate;
 
 import java.io.IOException;
@@ -22,7 +23,7 @@ class RestaurantParser {
     private static final String TAG = "TimetableParser";
 
     private static final String BASE_URL = "http://monte.rave.org/resto/";
-    private static final String BASE_URL_2 = "";
+    private static final String BASE_URL_2 = "http://www.tomjaspers.be/downloads/";
 
     private static final OkHttpClient client = new OkHttpClient();
 
@@ -42,17 +43,17 @@ class RestaurantParser {
         // And transform the data
         Gson gson = new Gson();
         final JsonArray jsonArray = new JsonParser().parse(body).getAsJsonArray();
-        for(final JsonElement menusPerDay : jsonArray) {
+        for (final JsonElement menusPerDay : jsonArray) {
             final JsonObject menusPerDayAsJsonObject = menusPerDay.getAsJsonObject();
             final LocalDate date = new LocalDate(menusPerDayAsJsonObject.get("date").getAsString());
-            if(menusPerDate.containsKey(date) && menusPerDate.get(date).size() == 0){
+            if (menusPerDate.containsKey(date) && menusPerDate.get(date).size() == 0) {
                 final Menu[] menus = gson.fromJson(menusPerDayAsJsonObject.get("menus"), Menu[].class);
                 menusPerDate.put(date, new ArrayList<Menu>(Arrays.asList(menus)));
             }
         }
     }
 
-    private static String getUrl(String baseUrl, String filename){
+    private static String getUrl(String baseUrl, String filename) {
         return new StringBuilder(baseUrl).append(filename).toString();
     }
 

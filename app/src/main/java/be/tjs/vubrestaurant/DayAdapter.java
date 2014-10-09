@@ -17,9 +17,9 @@ import be.tjs.vubrestaurant.core.RestaurantContainer;
 
 class DayAdapter extends BaseAdapter {
     private final LayoutInflater layoutInflater;
-    private List<Menu> menus;
     private final LocalDate date;
     private final RestaurantContainer restaurantContainer;
+    private List<Menu> menus;
 
     public DayAdapter(Context context, LocalDate date, RestaurantContainer restaurantContainer) {
         // Cache the LayoutInflate to avoid asking for a new one each time.

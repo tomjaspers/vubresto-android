@@ -1,8 +1,6 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
 
-
-
     <style name="FirstRunButton">
         <item name="android:textSize">25.0sp</item>
         <item name="android:textStyle">italic</item>
@@ -10,11 +8,11 @@
         <item name="android:background">@drawable/retry_button_background</item>
     </style>
 
-        <style name="CardText">
+    <style name="CardText">
         <item name="android:textSize">14.0sp</item>
         <item name="android:textColor">@color/card_text</item>
         <item name="android:ellipsize">end</item>
         <item name="android:maxLines">2</item>
     </style>
-    
+
 </resources>

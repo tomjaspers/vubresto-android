@@ -12,7 +12,7 @@ import be.tjs.vubrestaurant.core.Constants;
 /**
  * The DropdownNavigationAdapter is used to allow the user to choose
  * which restaurant to display by selecting the spinner in the actionbar.
- *
+ * <p/>
  * Created by tjs on 09/10/14.
  */
 class DropdownNavigationAdapter extends BaseAdapter {
@@ -60,7 +60,6 @@ class DropdownNavigationAdapter extends BaseAdapter {
     public long getItemId(int position) {
         return 0;
     }
-
 
 
 }

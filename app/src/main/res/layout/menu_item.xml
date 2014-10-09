@@ -1,43 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:id="@+id/card_view"
-    android:layout_gravity="center"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
+    android:layout_gravity="center"
     card_view:cardCornerRadius="1dp">
 
 
     <LinearLayout
-        android:layout_marginLeft="0dp"
-        android:layout_marginRight="0dp"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/txt_menu_naam"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:background="@color/blue_ish"
             android:gravity="bottom|start"
-            android:paddingTop="8dp"
             android:paddingBottom="8dp"
             android:paddingLeft="16dp"
             android:paddingStart="16dp"
-            android:background="@color/blue_ish"
+            android:paddingTop="8dp"
             android:textColor="@color/l_white"
             android:textSize="20sp"
-            android:typeface="serif"/>
+            android:typeface="serif" />
 
         <TextView
             android:id="@+id/txt_gerecht"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="8dp"
             android:paddingBottom="8dp"
             android:paddingLeft="16dp"
             android:paddingStart="16dp"
+            android:paddingTop="8dp"
             android:textColor="@color/l_text_main"
-            android:textSize="18sp"/>
+            android:textSize="18sp" />
     </LinearLayout>
 </android.support.v7.widget.CardView>

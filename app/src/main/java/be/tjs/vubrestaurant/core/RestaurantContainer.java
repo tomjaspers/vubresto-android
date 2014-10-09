@@ -1,7 +1,5 @@
 package be.tjs.vubrestaurant.core;
 
-import android.util.Log;
-
 import org.joda.time.LocalDate;
 
 import java.util.ArrayList;
@@ -20,15 +18,13 @@ public class RestaurantContainer {
     private static final int NUM_DAYS = 7;
 
     private final LocalDate[] dates;
+    private final int language;
     // The actual containers for menus of Etterbeek / Jette
     private Map<LocalDate, List<Menu>> menusPerDateEtterbeek;
     private Map<LocalDate, List<Menu>> menusPerDateJette;
-
     // The menus of the current active restaurant
     private Map<LocalDate, List<Menu>> menusPerDate;
     private int activeRestaurant;
-    private final int language;
-
     private boolean loading = true;
 
 
@@ -38,11 +34,6 @@ public class RestaurantContainer {
         this.dates = generateDates();
         this.language = language;
         setActiveRestaurant(activeRestaurant);
-    }
-
-    public void setActiveRestaurant(int restaurant){
-        this.activeRestaurant = restaurant;
-        this.menusPerDate = getMenusPerDateForActiveRestaurant();
     }
 
     private static LocalDate[] generateDates() {
@@ -55,6 +46,11 @@ public class RestaurantContainer {
         return dates;
     }
 
+    public void setActiveRestaurant(int restaurant) {
+        this.activeRestaurant = restaurant;
+        this.menusPerDate = getMenusPerDateForActiveRestaurant();
+    }
+
     public List<Menu> getMenus(LocalDate date) {
         if (menusPerDate.containsKey(date)) {
             return menusPerDate.get(date);
@@ -62,8 +58,8 @@ public class RestaurantContainer {
         return new ArrayList<Menu>();
     }
 
-    private Map<LocalDate, List<Menu>> getMenusPerDateForActiveRestaurant(){
-        if(activeRestaurant == Constants.RESTO_ETTERBEEK){
+    private Map<LocalDate, List<Menu>> getMenusPerDateForActiveRestaurant() {
+        if (activeRestaurant == Constants.RESTO_ETTERBEEK) {
             return menusPerDateEtterbeek;
         } else if (activeRestaurant == Constants.RESTO_JETTE) {
             return menusPerDateJette;
@@ -88,18 +84,19 @@ public class RestaurantContainer {
         return menusPerDate.containsKey(date) && menusPerDate.get(date) != null;
     }
 
-    public void setLoading (boolean loading){
-        this.loading = loading;
-    }
-    public boolean isLoading(){
+    public boolean isLoading() {
         return loading;
+    }
+
+    public void setLoading(boolean loading) {
+        this.loading = loading;
     }
 
     public boolean isEmpty() {
         return menusPerDate.isEmpty();
     }
 
-    public LocalDate[] getDates(){
+    public LocalDate[] getDates() {
         return dates;
     }
 

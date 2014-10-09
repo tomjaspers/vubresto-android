@@ -2,12 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-android:padding="0dp"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:padding="0dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content">
 
         <ProgressBar
             android:id="@+id/progress"
@@ -23,27 +23,26 @@ android:padding="0dp"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:layout_marginBottom="0dp"
-        android:layout_marginTop="0dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:paddingBottom="16dp"
-        android:paddingTop="16dp"
+        android:layout_marginTop="0dp"
         android:clipToPadding="false"
         android:divider="@null"
         android:dividerHeight="12dp"
         android:footerDividersEnabled="true"
-        android:scrollbars="none"
-        android:listSelector="@android:color/transparent" >
-    </ListView>
+        android:listSelector="@android:color/transparent"
+        android:paddingBottom="16dp"
+        android:paddingTop="16dp"
+        android:scrollbars="none"></ListView>
 
     <LinearLayout
         android:id="@+id/emptyView"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:layout_marginBottom="0dp"
+        android:layout_marginTop="10dp"
         android:gravity="fill_vertical|center"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <TextView
             style="@style/CardText"
@@ -62,7 +61,7 @@ android:padding="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:gravity="fill_vertical|center"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <ImageView
             android:id="@+id/web_search_error_image"
@@ -98,7 +97,7 @@ android:padding="0dp"
         android:layout_marginTop="8dp"
         android:gravity="fill_vertical|center"
         android:orientation="vertical"
-        android:visibility="gone" >
+        android:visibility="gone">
 
         <TextView
             style="@style/CardText"

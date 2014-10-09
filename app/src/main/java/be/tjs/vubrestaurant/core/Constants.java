@@ -2,10 +2,10 @@ package be.tjs.vubrestaurant.core;
 
 /**
  * Holds application-wide constants.
- *
+ * <p/>
  * Using an enum would be a lot "nicer", but Android guidelines say to avoid these
  * due to performance overhead. This is a simple and unchanging situation so this'll do pig.
- *
+ * <p/>
  * Created by tjs on 09/10/14.
  */
 public final class Constants {

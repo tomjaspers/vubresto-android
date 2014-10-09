@@ -62,7 +62,7 @@ public class MainActivity extends ActionBarActivity {
                         switchActiveRestaurant(position);
                         return true;
                     }
-        });
+                });
         actionBar.setSelectedNavigationItem(activeRestaurant);
 
         // Select the correct language based on locale
@@ -71,7 +71,7 @@ public class MainActivity extends ActionBarActivity {
             language = Constants.LANG_NL;
         }
         restaurantContainer = new RestaurantContainer(this.activeRestaurant, language);
-        datesAdapter = new DatesAdapter(getSupportFragmentManager(),restaurantContainer.getDates());
+        datesAdapter = new DatesAdapter(getSupportFragmentManager(), restaurantContainer.getDates());
 
         // Initialize visual elements
 
@@ -138,10 +138,10 @@ public class MainActivity extends ActionBarActivity {
         EasyTracker.getInstance().activityStop(this);
     }
 
-    private void switchActiveRestaurant(int restaurant){
+    private void switchActiveRestaurant(int restaurant) {
         this.activeRestaurant = restaurant;
         restaurantContainer.setActiveRestaurant(restaurant);
-        if(restaurantContainer.isEmpty()){
+        if (restaurantContainer.isEmpty()) {
             loadContent();
         } else {
             datesAdapter.notifyDataSetChanged();
@@ -153,7 +153,7 @@ public class MainActivity extends ActionBarActivity {
         viewPager.setCurrentItem(0, true);
     }
 
-    void loadContent(){
+    void loadContent() {
         new LoadContentTask().execute(this.activeRestaurant);
     }
 
@@ -175,6 +175,7 @@ public class MainActivity extends ActionBarActivity {
                 return false;
             }
         }
+
         @Override
         protected void onPostExecute(Boolean result) {
             restaurantContainer.setLoading(false);

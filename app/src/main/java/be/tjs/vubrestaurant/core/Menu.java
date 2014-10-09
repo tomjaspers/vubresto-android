@@ -8,7 +8,8 @@ public final class Menu {
     private String dish;
     private String color;
 
-    public Menu(){}
+    public Menu() {
+    }
 
     public String getName() {
         return name;
