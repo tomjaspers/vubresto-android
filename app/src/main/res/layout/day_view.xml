@@ -69,6 +69,7 @@
             android:layout_height="150dp"
             android:layout_gravity="center_horizontal"
             android:scaleType="fitXY"
+            android:contentDescription="@string/cant_load_info"
             android:src="@drawable/sad_robot" />
 
         <TextView

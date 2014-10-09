@@ -1,6 +1,7 @@
 package be.tjs.vubrestaurant;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import be.tjs.vubrestaurant.core.Constants;
+import be.tjs.vubrestaurant.core.Menu;
 
 /**
  * The DropdownNavigationAdapter is used to allow the user to choose
@@ -19,31 +21,44 @@ class DropdownNavigationAdapter extends BaseAdapter {
 
     private final Context context;
     private final String[] data;
-    private final LayoutInflater inflater;
+    private final LayoutInflater layoutInflater;
 
     public DropdownNavigationAdapter(Context context) {
-        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.data = Constants.RESTAURANTS;
         this.context = context;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View actionBarView = inflater.inflate(R.layout.spinner_dropdown_result, null);
-        TextView title = (TextView) actionBarView.findViewById(R.id.title);
-        TextView subtitle = (TextView) actionBarView.findViewById(R.id.subtitle);
-        title.setText(context.getResources().getString(R.string.app_name));
-        subtitle.setText(data[position]);
-        return actionBarView;
-
+        // Use ViewHolder pattern
+        ViewHolder holder;
+        if (convertView == null) {
+            convertView = layoutInflater.inflate(R.layout.spinner_dropdown_result, parent, false);
+            holder = new ViewHolder();
+            holder.tvRestaurant = (TextView) convertView.findViewById(R.id.subtitle);
+            convertView.setTag(holder);
+        } else {
+            holder = (ViewHolder) convertView.getTag();
+        }
+        holder.tvRestaurant.setText(data[position]);
+        return convertView;
     }
 
     @Override
     public View getDropDownView(int position, View convertView, ViewGroup parent) {
-        View actionBarDropDownView = inflater.inflate(R.layout.spinner_dropdown_item, null);
-        TextView dropDownTitle = (TextView) actionBarDropDownView.findViewById(R.id.spinner_dropdown_item_text);
-        dropDownTitle.setText(data[position]);
-        return actionBarDropDownView;
+        // Use ViewHolder pattern
+        ViewHolder holder;
+        if (convertView == null) {
+            convertView = layoutInflater.inflate(R.layout.spinner_dropdown_item, parent, false);
+            holder = new ViewHolder();
+            holder.tvRestaurant = (TextView) convertView.findViewById(R.id.spinner_dropdown_item_text);
+            convertView.setTag(holder);
+        } else {
+            holder = (ViewHolder) convertView.getTag();
+        }
+        holder.tvRestaurant.setText(data[position]);
+        return convertView;
     }
 
     @Override
@@ -61,5 +76,8 @@ class DropdownNavigationAdapter extends BaseAdapter {
         return 0;
     }
 
+    static class ViewHolder {
+        TextView tvRestaurant;
+    }
 
 }

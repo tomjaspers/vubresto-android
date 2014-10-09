@@ -5,9 +5,9 @@
 
     <TextView
         android:id="@+id/spinner_dropdown_item_text"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
+        android:gravity="start"
         android:padding="8dp"
         android:textColor="@color/white"
         android:textSize="18sp" />
