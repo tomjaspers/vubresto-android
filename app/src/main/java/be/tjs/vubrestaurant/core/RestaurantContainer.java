@@ -79,7 +79,6 @@ public class RestaurantContainer {
             }
             RestaurantParser.parseRestaurant(menusPerDate, activeRestaurant, language);
         } catch (Exception e) {
-            Log.e(TAG, e.toString());
             menusPerDate.clear();
             throw e;
         }

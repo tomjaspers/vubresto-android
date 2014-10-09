@@ -3,7 +3,7 @@ package be.tjs.vubrestaurant.core;
 /**
  * Populated automatically by Gson
  */
-public class Menu {
+public final class Menu {
     private String name;
     private String dish;
     private String color;

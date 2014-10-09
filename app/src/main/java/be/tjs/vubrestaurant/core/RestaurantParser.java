@@ -5,19 +5,13 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 import org.joda.time.LocalDate;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -28,12 +22,26 @@ class RestaurantParser {
     private static final String TAG = "TimetableParser";
 
     private static final String BASE_URL = "http://monte.rave.org/resto/";
+    private static final String BASE_URL_2 = "";
+
+    private static final OkHttpClient client = new OkHttpClient();
 
     public static void parseRestaurant(Map<LocalDate, List<Menu>> menusPerDate, int resto, int lang) throws Exception {
-        String url = getUrl(resto, lang);
-        String jsonResponse = connect(url);
+        // Make the request
+        String filename = getFilename(resto, lang);
+        Request request = new Request.Builder()
+                .url(getUrl(BASE_URL, filename))
+                .url(getUrl(BASE_URL_2, filename))
+                .build();
+        Response response = client.newCall(request).execute();
+        if (!response.isSuccessful()) {
+            throw new IOException("Unexpected code " + response);
+        }
+
+        Reader body = response.body().charStream();
+        // And transform the data
         Gson gson = new Gson();
-        final JsonArray jsonArray = new JsonParser().parse(jsonResponse).getAsJsonArray();
+        final JsonArray jsonArray = new JsonParser().parse(body).getAsJsonArray();
         for(final JsonElement menusPerDay : jsonArray) {
             final JsonObject menusPerDayAsJsonObject = menusPerDay.getAsJsonObject();
             final LocalDate date = new LocalDate(menusPerDayAsJsonObject.get("date").getAsString());
@@ -44,10 +52,13 @@ class RestaurantParser {
         }
     }
 
+    private static String getUrl(String baseUrl, String filename){
+        return new StringBuilder(baseUrl).append(filename).toString();
+    }
 
-    private static String getUrl(int resto, int lang) throws Exception {
+    private static String getFilename(int resto, int lang) throws Exception {
         // This feels wrong?
-        StringBuilder sb = new StringBuilder(BASE_URL);
+        StringBuilder sb = new StringBuilder();
         switch (resto) {
             case Constants.RESTO_ETTERBEEK:
                 sb.append(Constants.ETTERBEEK.toLowerCase());
@@ -72,56 +83,6 @@ class RestaurantParser {
         sb.append(".json");
         return sb.toString();
     }
-
-    private static String convertStreamToString(InputStream is) {
-        /*
-         * To convert the InputStream to String we use the BufferedReader.readLine()
-         * method. We iterate until the BufferedReader return null which means
-         * there's no more data to read. Each line will appended to a StringBuilder
-         * and returned as String.
-         */
-        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-        StringBuilder sb = new StringBuilder();
-
-        String line;
-        try {
-            while ((line = reader.readLine()) != null) {
-                sb.append(line);
-                sb.append("\n");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                is.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return sb.toString();
-    }
-
-    private static String connect(String url){
-        HttpClient httpclient = new DefaultHttpClient();
-        HttpGet httpget = new HttpGet(url);
-        HttpResponse response;
-        try {
-            response = httpclient.execute(httpget);
-            HttpEntity entity = response.getEntity();
-            if (entity != null) {
-                InputStream instream = entity.getContent();
-                String result= convertStreamToString(instream);
-                instream.close();
-                return result;
-            }
-        } catch (ClientProtocolException e) {
-        } catch (IOException e) {
-        }
-        return null;
-    }
-
-
-
 }
 
 
