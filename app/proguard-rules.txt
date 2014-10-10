@@ -17,6 +17,8 @@
 #}
 -dontwarn org.joda.convert.**
 
--keep public class org.jsoup.** {
-public *;
+# Remove logging statements
+-assumenosideeffects class android.util.Log {
+    public static *** d(...);
+    public static *** v(...);
 }
