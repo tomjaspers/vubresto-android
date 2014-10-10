@@ -2,6 +2,7 @@ package be.tjs.vubrestaurant;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,8 @@ import be.tjs.vubrestaurant.core.Menu;
 import be.tjs.vubrestaurant.core.RestaurantContainer;
 
 class DayAdapter extends BaseAdapter {
+    @SuppressWarnings("unused")
+    private static final String TAG = "DayAdapter";
     private final LayoutInflater layoutInflater;
     private final LocalDate date;
     private final RestaurantContainer restaurantContainer;
@@ -63,8 +66,15 @@ class DayAdapter extends BaseAdapter {
         }
 
         final Menu menu = (Menu) getItem(position);
+        int color;
+        try{
+            color = Color.parseColor(menu.getColor());
+        }catch(Exception e){
+            color = Color.LTGRAY;
+            Log.d(TAG, "Failed parsing menu color: " + e.toString());
+        }
         holder.tvMenu.setText(menu.getName());
-        holder.tvMenu.setBackgroundColor(Color.parseColor(menu.getColor()));
+        holder.tvMenu.setBackgroundColor(color);
         holder.tvDish.setText(menu.getDish());
 
         return convertView;
