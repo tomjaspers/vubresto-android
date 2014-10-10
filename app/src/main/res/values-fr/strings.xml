@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <!-- APP INFO -->
-    <string name="app_name">VUB Resto</string>
-
     <!-- ACTION BUTTONS -->
     <string name="action_today">Aujourd\'hui</string>
 
@@ -12,6 +8,4 @@
     <string name="closed_on_weekend">Le restaurant est fermé le weekend</string>
     <string name="cant_load_info">Information du restaurant non disponible</string>
     <string name="retry">Réessayez</string>
-
-
 </resources>
