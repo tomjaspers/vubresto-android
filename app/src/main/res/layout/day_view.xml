@@ -65,12 +65,13 @@
 
         <ImageView
             android:id="@+id/web_search_error_image"
-            android:layout_width="268dp"
-            android:layout_height="150dp"
+            android:layout_width="250dp"
+            android:layout_height="200dp"
             android:layout_gravity="center_horizontal"
             android:scaleType="fitXY"
+            android:layout_marginBottom="10dp"
             android:contentDescription="@string/cant_load_info"
-            android:src="@drawable/sad_robot" />
+            android:src="@drawable/broken_robot" />
 
         <TextView
             android:id="@+id/web_search_error_message"
