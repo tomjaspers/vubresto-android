@@ -28,9 +28,8 @@ class RestaurantParser {
 
     public static void parseRestaurant(Map<LocalDate, List<Menu>> menusPerDate, int resto, int lang) throws Exception {
         // Make the request
-        String filename = getFilename(resto, lang);
         Request request = new Request.Builder()
-                .url(getUrl(BASE_URL, filename))
+                .url(getUrl(resto, lang))
                 .build();
         Response response = client.newCall(request).execute();
         if (!response.isSuccessful()) {
@@ -51,13 +50,9 @@ class RestaurantParser {
         }
     }
 
-    private static String getUrl(String baseUrl, String filename) {
-        return new StringBuilder(baseUrl).append(filename).toString();
-    }
-
-    private static String getFilename(int resto, int lang) throws Exception {
+    private static String getUrl(int resto, int lang) throws Exception {
         // This feels wrong?
-        StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder(BASE_URL);
         switch (resto) {
             case Constants.RESTO_ETTERBEEK:
                 sb.append(Constants.ETTERBEEK.toLowerCase());
