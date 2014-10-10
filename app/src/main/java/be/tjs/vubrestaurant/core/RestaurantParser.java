@@ -22,8 +22,8 @@ class RestaurantParser {
     @SuppressWarnings("unused")
     private static final String TAG = "TimetableParser";
 
-    private static final String BASE_URL = "http://monte.rave.org/resto/";
-    private static final String BASE_URL_2 = "http://www.tomjaspers.be/downloads/";
+    private static final String BASE_URL = "http://178.62.199.83/vubresto/";
+    private static final String BASE_URL_2 = "http://monte.rave.org/resto/";
 
     private static final OkHttpClient client = new OkHttpClient();
 
