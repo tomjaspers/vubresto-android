@@ -23,7 +23,6 @@ class RestaurantParser {
     private static final String TAG = "TimetableParser";
 
     private static final String BASE_URL = "http://178.62.199.83/vubresto/";
-    private static final String BASE_URL_2 = "http://monte.rave.org/resto/";
 
     private static final OkHttpClient client = new OkHttpClient();
 
@@ -32,7 +31,6 @@ class RestaurantParser {
         String filename = getFilename(resto, lang);
         Request request = new Request.Builder()
                 .url(getUrl(BASE_URL, filename))
-                .url(getUrl(BASE_URL_2, filename))
                 .build();
         Response response = client.newCall(request).execute();
         if (!response.isSuccessful()) {
