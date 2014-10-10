@@ -1,5 +1,7 @@
 package be.tjs.vubrestaurant.core;
 
+import android.util.Log;
+
 import org.joda.time.LocalDate;
 
 import java.util.ArrayList;
@@ -75,6 +77,7 @@ public class RestaurantContainer {
             }
             RestaurantParser.parseRestaurant(menusPerDate, activeRestaurant, language);
         } catch (Exception e) {
+            Log.d(TAG, e.toString());
             menusPerDate.clear();
             throw e;
         }
