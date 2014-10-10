@@ -15,7 +15,19 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+
+# Menu is only used via Gson so we should keep ProGuard on a leash
+-keep class be.tjs.vubrestaurant.** { *; }
+
+# Jodatime
 -dontwarn org.joda.convert.**
+
+# OkHttp related stuff
+-dontwarn rx.**
+-dontwarn okio.**
+-dontwarn com.squareup.okhttp.**
+-keep class com.squareup.** { *;}
+-keep interface com.squareup.** { *;}
 
 # Remove logging statements
 -assumenosideeffects class android.util.Log {
