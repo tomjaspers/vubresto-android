@@ -19,14 +19,12 @@ import be.tjs.vubrestaurant.core.Menu;
  */
 class DropdownNavigationAdapter extends BaseAdapter {
 
-    private final Context context;
     private final String[] data;
     private final LayoutInflater layoutInflater;
 
     public DropdownNavigationAdapter(Context context) {
         layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.data = Constants.RESTAURANTS;
-        this.context = context;
     }
 
     @Override
