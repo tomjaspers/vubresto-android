@@ -11,6 +11,7 @@ import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -38,6 +39,8 @@ public class MainActivity extends ActionBarActivity {
     private ViewPager viewPager;
 
     private int activeRestaurant;
+
+    private LoadContentTask loadContentTask;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -87,11 +90,22 @@ public class MainActivity extends ActionBarActivity {
         viewPager.setVisibility(View.GONE);
         viewPager.setCurrentItem(0); // Today is always the first date (since 1.3.2)
         viewPager.setVisibility(View.VISIBLE);
+
+        // Avoid having the loadContentTask working with an IllegalState
+        Object retained = getLastCustomNonConfigurationInstance();
+        if (retained instanceof LoadContentTask) {
+            loadContentTask = (LoadContentTask) retained;
+            loadContentTask.setActivity(this);
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        // Avoid having the loadContentTask working with an IllegalState
+        if(loadContentTask != null) {
+            loadContentTask.setActivity(this);
+        }
         if (restaurantContainer.isEmpty()) {
             datesAdapter.notifyDataSetChanged();
             loadContent();
@@ -125,10 +139,24 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     public void onPause() {
-        super.onPause();
+        // Avoid having the loadContentTask working with an IllegalState
+        if(loadContentTask != null) {
+            loadContentTask.setActivity(null);
+        }
         // Make sure we save the current active restaurant for next time
         SharedPreferences preferences = getSharedPreferences(PREFS_FILENAME, MODE_PRIVATE);
         preferences.edit().putInt(PREFS_ACTIVE_RESTAURANT, this.activeRestaurant).apply();
+        super.onPause();
+    }
+
+    @Override
+    public Object onRetainCustomNonConfigurationInstance() {
+        // Avoid having the loadContentTask working with an IllegalState
+        if(loadContentTask != null) {
+            loadContentTask.setActivity(null);
+            return loadContentTask;
+        }
+        return null;
     }
 
     @Override
@@ -153,17 +181,46 @@ public class MainActivity extends ActionBarActivity {
         viewPager.setCurrentItem(0, true);
     }
 
+    public void onContentLoaded(){
+        restaurantContainer.setLoading(false);
+        datesAdapter.notifyDataSetChanged();
+    }
+
     void loadContent() {
-        new LoadContentTask().execute(this.activeRestaurant);
+        try{
+            restaurantContainer.setLoading(true);
+            datesAdapter.notifyDataSetChanged();
+
+            loadContentTask = new LoadContentTask(this);
+            loadContentTask.execute(this.activeRestaurant);
+        } catch(Exception ex){
+            Log.d(TAG, ex.getMessage());
+        }
+
     }
 
     private class LoadContentTask extends AsyncTask<Object, Object, Boolean> {
 
+        private MainActivity activity;
+
+        public LoadContentTask(MainActivity activity) {
+            this.activity = activity;
+        }
+
+        public void setActivity(MainActivity pActivity) {
+            this.activity = pActivity;
+        }
+
+        private void notifiyActivityTaskCompleted() {
+            if(activity != null) {
+                activity.onContentLoaded();
+            }
+        }
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            restaurantContainer.setLoading(true);
-            datesAdapter.notifyDataSetChanged();
+
         }
 
         @Override
@@ -178,8 +235,7 @@ public class MainActivity extends ActionBarActivity {
 
         @Override
         protected void onPostExecute(Boolean result) {
-            restaurantContainer.setLoading(false);
-            datesAdapter.notifyDataSetChanged();
+            notifiyActivityTaskCompleted();
             super.onPostExecute(result);
         }
     }
