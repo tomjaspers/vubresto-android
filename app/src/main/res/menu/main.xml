@@ -7,4 +7,10 @@
         android:title="@string/action_today"
         app:showAsAction="always" />
 
+    <item android:id="@+id/action_language"
+        android:orderInCategory="2"
+        app:showAsAction="never"
+        android:title="@string/action_language"
+        android:checkable="true" />
+
 </menu>

@@ -33,6 +33,7 @@ public class MainActivity extends ActionBarActivity {
 
     private static final String PREFS_FILENAME = "PreferencesVUBResto";
     private static final String PREFS_ACTIVE_RESTAURANT = "ActiveRestaurant";
+    private static final String PREFS_LANGUAGE = "Language";
 
     RestaurantContainer restaurantContainer;
     private DatesAdapter datesAdapter;
@@ -68,15 +69,10 @@ public class MainActivity extends ActionBarActivity {
                 });
         actionBar.setSelectedNavigationItem(activeRestaurant);
 
-        // Select the correct language based on locale
-        int language = Constants.LANG_EN;
-        if (Locale.getDefault().getLanguage().equals("nl")) {
-            language = Constants.LANG_NL;
-        }
+        // Select the correct language. If its set, take from settings, else derrive from locale
+        int language = preferences.getInt(PREFS_LANGUAGE, getLanguageFromLocale());
         restaurantContainer = new RestaurantContainer(this.activeRestaurant, language);
         datesAdapter = new DatesAdapter(getSupportFragmentManager(), restaurantContainer.getDates());
-
-        // Initialize visual elements
 
         // Customize pagerTabStrip
         PagerTabStrip pagerTabStrip = (PagerTabStrip) findViewById(R.id.pagerTabStrip);
@@ -99,6 +95,12 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
+    private int getLanguageFromLocale(){
+        if (Locale.getDefault().getLanguage().equals("nl")) {
+            return Constants.LANG_NL;
+        }
+        return Constants.LANG_EN;
+    }
     @Override
     protected void onResume() {
         super.onResume();
@@ -119,11 +121,24 @@ public class MainActivity extends ActionBarActivity {
     }
 
     @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        // We have the manually ensure the language state is correct
+        menu.findItem(R.id.action_language).setChecked(
+                restaurantContainer.getLanguage()==Constants.LANG_EN);
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle menu selection
         switch (item.getItemId()) {
             case R.id.action_today:
                 scrollToToday();
+                return true;
+            case R.id.action_language:
+                // Toggle the visual state
+                item.setChecked(!item.isChecked());
+                switchLanguage();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -146,6 +161,7 @@ public class MainActivity extends ActionBarActivity {
         // Make sure we save the current active restaurant for next time
         SharedPreferences preferences = getSharedPreferences(PREFS_FILENAME, MODE_PRIVATE);
         preferences.edit().putInt(PREFS_ACTIVE_RESTAURANT, this.activeRestaurant).apply();
+        preferences.edit().putInt(PREFS_LANGUAGE, this.restaurantContainer.getLanguage()).apply();
         super.onPause();
     }
 
@@ -164,6 +180,17 @@ public class MainActivity extends ActionBarActivity {
         super.onStop();
         // Analytics
         EasyTracker.getInstance().activityStop(this);
+    }
+
+    private void switchLanguage(){
+        if(restaurantContainer.getLanguage() == Constants.LANG_EN){
+            restaurantContainer.setLanguage(Constants.LANG_NL);
+        } else {
+            restaurantContainer.setLanguage(Constants.LANG_EN);
+        }
+        restaurantContainer.clear();
+        datesAdapter.notifyDataSetChanged();
+        loadContent();
     }
 
     private void switchActiveRestaurant(int restaurant) {

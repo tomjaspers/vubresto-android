@@ -20,7 +20,7 @@ public class RestaurantContainer {
     private static final int NUM_DAYS = 7;
 
     private final LocalDate[] dates;
-    private final int language;
+    private int language;
     // The actual containers for menus of Etterbeek / Jette
     private Map<LocalDate, List<Menu>> menusPerDateEtterbeek;
     private Map<LocalDate, List<Menu>> menusPerDateJette;
@@ -83,6 +83,11 @@ public class RestaurantContainer {
         }
     }
 
+    public void clear(){
+        menusPerDateEtterbeek.clear();
+        menusPerDateJette.clear();
+    }
+
     public boolean hasMenus(LocalDate date) {
         return menusPerDate.containsKey(date) && menusPerDate.get(date) != null;
     }
@@ -103,4 +108,11 @@ public class RestaurantContainer {
         return dates;
     }
 
+    public void setLanguage(int language){
+        this.language = language;
+    }
+
+    public int getLanguage() {
+        return language;
+    }
 }

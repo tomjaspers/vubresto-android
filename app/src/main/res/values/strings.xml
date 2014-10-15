@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <!-- APP INFO -->
     <string name="app_name">VUB Resto</string>
 
     <!-- ACTION BUTTONS -->
     <string name="action_today">Today</string>
+    <string name="action_language">English menus</string>
 
     <!-- CONTENT -->
     <string name="no_meals">No meals on the menu</string>
     <string name="closed_on_weekend">The restaurant is closed during the weekend</string>
     <string name="cant_load_info">Can\'t load restaurant information</string>
     <string name="retry">Retry</string>
-
 </resources>

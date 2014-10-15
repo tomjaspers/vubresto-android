@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <!-- APP INFO -->
     <string name="app_name">VUB Resto</string>
 
     <!-- ACTION BUTTONS -->
     <string name="action_today">Vandaag</string>
+    <string name="action_language">Engelstalige menus</string>
 
     <!-- CONTENT -->
     <string name="no_meals">Geen maaltijden op het menu</string>
