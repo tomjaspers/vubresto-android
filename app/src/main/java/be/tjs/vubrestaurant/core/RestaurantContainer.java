@@ -27,7 +27,6 @@ public class RestaurantContainer {
     // The menus of the current active restaurant
     private Map<LocalDate, List<Menu>> menusPerDate;
     private int activeRestaurant;
-    private boolean loading = true;
 
 
     public RestaurantContainer(int activeRestaurant, int language) {
@@ -73,7 +72,7 @@ public class RestaurantContainer {
         try {
             menusPerDate.clear();
             for (LocalDate date : dates) {
-                menusPerDate.put(date, new ArrayList<Menu>());
+                menusPerDate.put(date, null);
             }
             RestaurantParser.parseRestaurant(menusPerDate, activeRestaurant, language);
         } catch (Exception e) {
@@ -88,16 +87,12 @@ public class RestaurantContainer {
         menusPerDateJette.clear();
     }
 
+    public boolean hasDate(LocalDate date){
+        return menusPerDate.containsKey(date);
+    }
+
     public boolean hasMenus(LocalDate date) {
         return menusPerDate.containsKey(date) && menusPerDate.get(date) != null;
-    }
-
-    public boolean isLoading() {
-        return loading;
-    }
-
-    public void setLoading(boolean loading) {
-        this.loading = loading;
     }
 
     public boolean isEmpty() {

@@ -9,7 +9,9 @@
 
     <!-- CONTENT -->
     <string name="no_meals">No meals on the menu</string>
+    <string name="no_information">Information is not yet available for this date</string>
     <string name="closed_on_weekend">The restaurant is closed during the weekend</string>
     <string name="cant_load_info">Can\'t load restaurant information</string>
     <string name="retry">Retry</string>
+    <string name="action_refresh">Refresh</string>
 </resources>

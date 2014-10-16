@@ -9,9 +9,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import org.joda.time.DateTimeConstants;
 import org.joda.time.LocalDate;
+import org.w3c.dom.Text;
 
 public class DayFragment extends Fragment {
     @SuppressWarnings("unused")
@@ -22,7 +24,7 @@ public class DayFragment extends Fragment {
 
     private ProgressBar progressBar;
     private ListView contentListView;
-    private View emptyView;
+    private TextView emptyView;
     private View errorView;
     private DayAdapter dayAdapter;
     private LocalDate date;
@@ -54,7 +56,7 @@ public class DayFragment extends Fragment {
 
         progressBar = (ProgressBar) view.findViewById(R.id.progress);
         errorView = view.findViewById(R.id.errorView);
-        emptyView = view.findViewById(R.id.emptyView);
+        emptyView = (TextView) view.findViewById(R.id.emptyView);
         contentListView = (ListView) view.findViewById(R.id.content_listview);
 
         // Show static view during the weekend
@@ -87,7 +89,7 @@ public class DayFragment extends Fragment {
     }
 
     private void showContent() {
-        if (((MainActivity) getActivity()).restaurantContainer.isLoading()) {
+        if (((MainActivity) getActivity()).isLoading()) {
             // Hide the errorview
             errorView.setVisibility(View.GONE);
             // Hide the list view
@@ -96,11 +98,16 @@ public class DayFragment extends Fragment {
             // Show the progress bar
             progressBar.setVisibility(View.VISIBLE);
         } else {
-            if (((MainActivity) getActivity()).restaurantContainer.hasMenus(date)) {
+            if (((MainActivity) getActivity()).restaurantContainer.hasDate(date)) {
                 // Hide the errorview
                 errorView.setVisibility(View.GONE);
                 // Hide the progress bar
                 progressBar.setVisibility(View.GONE);
+                if(((MainActivity) getActivity()).restaurantContainer.hasMenus(date)){
+                    emptyView.setText(getString(R.string.no_meals));
+                } else {
+                    emptyView.setText(getString(R.string.no_information));
+                }
                 // Show the list view
                 emptyView.setVisibility(View.VISIBLE);
                 contentListView.setVisibility(View.VISIBLE);

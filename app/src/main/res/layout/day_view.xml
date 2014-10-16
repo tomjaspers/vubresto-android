@@ -35,25 +35,20 @@
         android:paddingTop="16dp"
         android:scrollbars="none"></ListView>
 
-    <LinearLayout
+
+
+    <TextView
         android:id="@+id/emptyView"
+        style="@style/CardText"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="40.0dip"
+        android:layout_marginRight="40.0dip"
         android:layout_marginBottom="0dp"
         android:layout_marginTop="10dp"
-        android:gravity="fill_vertical|center"
-        android:orientation="vertical">
-
-        <TextView
-            style="@style/CardText"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="40.0dip"
-            android:layout_marginRight="40.0dip"
-            android:gravity="center_horizontal"
-            android:paddingTop="2dp"
-            android:text="@string/no_meals" />
-    </LinearLayout>
+        android:gravity="center_horizontal"
+        android:paddingTop="2dp"
+        android:text="@string/no_meals" />
 
     <LinearLayout
         android:id="@+id/errorView"
