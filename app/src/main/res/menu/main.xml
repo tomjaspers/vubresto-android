@@ -13,4 +13,9 @@
         android:title="@string/action_language"
         android:checkable="true" />
 
+    <item
+        android:id="@+id/action_refresh"
+        android:orderInCategory="3"
+        android:title="@string/action_refresh"
+        app:showAsAction="never" />
 </menu>

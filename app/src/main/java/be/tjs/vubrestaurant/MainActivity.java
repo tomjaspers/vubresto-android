@@ -108,8 +108,8 @@ public class MainActivity extends ActionBarActivity {
         if(loadContentTask != null) {
             loadContentTask.setActivity(this);
         }
+        datesAdapter.notifyDataSetChanged();
         if (restaurantContainer.isEmpty()) {
-            datesAdapter.notifyDataSetChanged();
             loadContent();
         }
     }
@@ -140,6 +140,8 @@ public class MainActivity extends ActionBarActivity {
                 item.setChecked(!item.isChecked());
                 switchLanguage();
                 return true;
+            case R.id.action_refresh:
+                loadContent();
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -209,26 +211,34 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void onContentLoaded(){
-        restaurantContainer.setLoading(false);
         datesAdapter.notifyDataSetChanged();
     }
 
     void loadContent() {
         try{
-            restaurantContainer.setLoading(true);
-            datesAdapter.notifyDataSetChanged();
-
+            if (loadContentTask != null && loadContentTask.isLoading()){
+                loadContentTask.cancel(true);
+            }
             loadContentTask = new LoadContentTask(this);
             loadContentTask.execute(this.activeRestaurant);
+            datesAdapter.notifyDataSetChanged();
         } catch(Exception ex){
             Log.d(TAG, ex.getMessage());
         }
 
     }
 
+    boolean isLoading(){
+        if (loadContentTask != null){
+            return loadContentTask.isLoading();
+        }
+        return false;
+    }
+
     private class LoadContentTask extends AsyncTask<Object, Object, Boolean> {
 
         private MainActivity activity;
+        private boolean isCompleted = false;
 
         public LoadContentTask(MainActivity activity) {
             this.activity = activity;
@@ -247,7 +257,7 @@ public class MainActivity extends ActionBarActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-
+            this.isCompleted = false;
         }
 
         @Override
@@ -262,8 +272,19 @@ public class MainActivity extends ActionBarActivity {
 
         @Override
         protected void onPostExecute(Boolean result) {
+            this.isCompleted = true;
             notifiyActivityTaskCompleted();
             super.onPostExecute(result);
+        }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+            this.isCompleted = true;
+        }
+
+        private boolean isLoading(){
+            return !this.isCompleted;
         }
     }
 
