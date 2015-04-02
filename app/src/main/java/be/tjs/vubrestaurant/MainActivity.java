@@ -11,13 +11,12 @@ import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-
-import com.google.analytics.tracking.android.EasyTracker;
 
 import org.joda.time.LocalDate;
 
@@ -54,6 +53,7 @@ public class MainActivity extends ActionBarActivity {
         activeRestaurant = preferences.getInt(PREFS_ACTIVE_RESTAURANT, Constants.RESTO_ETTERBEEK);
 
         // Setup actionbar
+        // TODO: use Toolbar from Appcompatv7
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setLogo(R.drawable.ic_vubrestaurant);
@@ -147,12 +147,6 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        // Analytics
-        EasyTracker.getInstance().activityStart(this);
-    }
 
     @Override
     public void onPause() {
@@ -175,13 +169,6 @@ public class MainActivity extends ActionBarActivity {
             return loadContentTask;
         }
         return null;
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        // Analytics
-        EasyTracker.getInstance().activityStop(this);
     }
 
     private void switchLanguage(){
@@ -229,10 +216,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     boolean isLoading(){
-        if (loadContentTask != null){
-            return loadContentTask.isLoading();
-        }
-        return false;
+        return loadContentTask != null && loadContentTask.isLoading();
     }
 
     private class LoadContentTask extends AsyncTask<Object, Object, Boolean> {

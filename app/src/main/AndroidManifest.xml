@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="be.tjs.vubrestaurant">
 
-    <uses-sdk tools:node="replace" />
+    <!--<uses-sdk tools:node="replace" />-->
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
