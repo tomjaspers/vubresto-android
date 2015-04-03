@@ -3,5 +3,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/toolbar"
     android:layout_width="match_parent" android:layout_height="match_parent"
-    android:theme="@style/Theme.Teal">
+    android:theme="@style/Theme.Teal"
+    android:background="@color/l_teal">
 </android.support.v7.widget.Toolbar>
