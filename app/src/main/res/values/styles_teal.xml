@@ -1,19 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="SplashTheme" parent="@android:style/Theme.Holo.NoActionBar">
-        <item name="android:windowBackground">@color/l_white</item>
-    </style>
-
-    <style name="Theme.Teal" parent="@style/Theme.AppCompat">
+    <style name="Theme.Teal" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowContentOverlay">@null</item>
-        <item name="actionBarItemBackground">@drawable/selectable_background_teal</item>
-        <item name="actionBarStyle">@style/ActionBar.Solid.Teal</item>
-    </style>
+        <item name="windowActionBar">false</item> <!-- b/c we use toolbar -->
+        <item name="android:textColorPrimary">@color/l_white</item>
 
-    <style name="ActionBar.Solid.Teal" parent="@style/Widget.AppCompat.ActionBar.Solid">
-        <item name="background">@drawable/ab_solid_teal</item>
-        <item name="backgroundSplit">@drawable/ab_bottom_solid_teal</item>
+        <item name="colorPrimary">@color/l_teal</item> <!-- toolbar -->
+        <item name="background">@color/l_teal</item> <!-- toolbar, compat -->
+
+        <item name="colorPrimaryDark">@color/primary_dark_material_dark</item> <!-- status bar -->
+        <item name="android:windowBackground">@color/l_white</item>
     </style>
 
 </resources>

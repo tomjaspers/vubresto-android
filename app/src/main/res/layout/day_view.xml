@@ -33,7 +33,7 @@
         android:listSelector="@android:color/transparent"
         android:paddingBottom="16dp"
         android:paddingTop="16dp"
-        android:scrollbars="none"></ListView>
+        android:scrollbars="none" />
 
 
 

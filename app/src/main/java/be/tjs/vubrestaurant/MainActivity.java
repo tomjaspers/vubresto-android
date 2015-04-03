@@ -53,11 +53,14 @@ public class MainActivity extends ActionBarActivity {
         activeRestaurant = preferences.getInt(PREFS_ACTIVE_RESTAURANT, Constants.RESTO_ETTERBEEK);
 
         // Setup actionbar
-        // TODO: use Toolbar from Appcompatv7
+        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setLogo(R.drawable.ic_vubrestaurant);
+        // This deprecated stuff will be removed when using new restaurant selector
+        //noinspection deprecation
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+        //noinspection deprecation
         actionBar.setListNavigationCallbacks(
                 new DropdownNavigationAdapter(this),
                 new ActionBar.OnNavigationListener() {
@@ -67,6 +70,7 @@ public class MainActivity extends ActionBarActivity {
                         return true;
                     }
                 });
+        //noinspection deprecation
         actionBar.setSelectedNavigationItem(activeRestaurant);
 
         // Select the correct language. If its set, take from settings, else derrive from locale
@@ -197,7 +201,7 @@ public class MainActivity extends ActionBarActivity {
         viewPager.setCurrentItem(0, true);
     }
 
-    public void onContentLoaded(){
+    void onContentLoaded(){
         datesAdapter.notifyDataSetChanged();
     }
 

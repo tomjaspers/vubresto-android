@@ -9,7 +9,6 @@
         android:layout_height="wrap_content"
         android:gravity="start"
         android:padding="8dp"
-        android:textColor="@color/white"
         android:textSize="18sp" />
 
 </RelativeLayout>

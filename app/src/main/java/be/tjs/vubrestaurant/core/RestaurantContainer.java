@@ -30,8 +30,8 @@ public class RestaurantContainer {
 
 
     public RestaurantContainer(int activeRestaurant, int language) {
-        this.menusPerDateEtterbeek = new TreeMap<LocalDate, List<Menu>>();
-        this.menusPerDateJette = new TreeMap<LocalDate, List<Menu>>();
+        this.menusPerDateEtterbeek = new TreeMap<>();
+        this.menusPerDateJette = new TreeMap<>();
         this.dates = generateDates();
         this.language = language;
         setActiveRestaurant(activeRestaurant);
@@ -56,7 +56,7 @@ public class RestaurantContainer {
         if (menusPerDate.containsKey(date)) {
             return menusPerDate.get(date);
         }
-        return new ArrayList<Menu>();
+        return new ArrayList<>();
     }
 
     private Map<LocalDate, List<Menu>> getMenusPerDateForActiveRestaurant() {

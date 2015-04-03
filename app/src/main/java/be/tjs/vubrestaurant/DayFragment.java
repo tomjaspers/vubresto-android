@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import org.joda.time.DateTimeConstants;
 import org.joda.time.LocalDate;
-import org.w3c.dom.Text;
 
 public class DayFragment extends Fragment {
     @SuppressWarnings("unused")

@@ -45,7 +45,7 @@ class RestaurantParser {
             final LocalDate date = new LocalDate(menusPerDayAsJsonObject.get("date").getAsString());
             if (menusPerDate.containsKey(date) && menusPerDate.get(date) == null) {
                 final Menu[] menus = gson.fromJson(menusPerDayAsJsonObject.get("menus"), Menu[].class);
-                menusPerDate.put(date, new ArrayList<Menu>(Arrays.asList(menus)));
+                menusPerDate.put(date, new ArrayList<>(Arrays.asList(menus)));
             }
         }
     }

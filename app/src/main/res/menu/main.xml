@@ -5,7 +5,7 @@
         android:id="@+id/action_today"
         android:orderInCategory="1"
         android:title="@string/action_today"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
 
     <item android:id="@+id/action_language"
         android:orderInCategory="2"
