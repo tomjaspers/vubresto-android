@@ -22,7 +22,7 @@ class RestaurantParser {
     @SuppressWarnings("unused")
     private static final String TAG = "TimetableParser";
 
-    private static final String BASE_URL = "http://178.62.199.83/vubresto/";
+    private static final String BASE_URL = "http://www.pk.be/vubresto/";
 
     private static final OkHttpClient client = new OkHttpClient();
 
